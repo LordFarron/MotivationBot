@@ -8,13 +8,11 @@ require_relative 'motivate.rb'
 
 Telegram::Bot::Client.run(@token) do |bot|
     bot.listen do |message|
-        if User.exists?(telegram_id: message.from.id)
-            user = User.find_by(telegram_id: message.from.id)
-        else user = User.create(telegram_id: message.from.id, name: message.from.first_name)
-        end
-
-        
-
+        #if User.exists?(telegram_id: message.from.id)
+            user = User.find_or_create_by(telegram_id: message.from.id, name: message.from.first_name)
+            #user = User.find_by(telegram_id: message.from.id)
+        #else user = User.create(telegram_id: message.from.id, name: message.from.first_name)
+        #end
         case message.text
         when "/start"
             bot.api.send_message(chat_id: message.chat.id, text: "Welcome to Daily MotivationBot. To " +
@@ -36,6 +34,7 @@ Telegram::Bot::Client.run(@token) do |bot|
                 did you like? use /like")
 
         when "/like"
+            Quote.find_by(index: quotes.last)
 
 
 
@@ -44,23 +43,4 @@ Telegram::Bot::Client.run(@token) do |bot|
         end
     
     end
-end
-
-
-class Joke
-    @values = nil
-    
-    def initialize
-        @values = make_the_request
-    end
-
-    def make_the_request
-        url = 'https://official-joke-api.appspot.com/random_joke'
-        uri = URI(url)
-        response = Net::HTTP.get(uri)
-        response = JSON.parse(response)
-        return response
-    end
-
-   
 end
