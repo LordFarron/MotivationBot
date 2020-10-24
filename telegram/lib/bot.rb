@@ -38,15 +38,16 @@ Telegram::Bot::Client.run(@token) do |bot|
                 did you like? use /like")
 
         when "/like"
-            #quote = Quote.find_by(index: quote.last)
             quote = Quote.last
             i = quote.likes
             quote.update(likes: i = i + 1)
-
             bot.api.send_message(chat_id: message.chat.id, text: "Oh, thank you! \u{2764}")
 
 
         when "/info"
+
+        when "/display-likes"
+            quote = Quote.
         else bot.api.send_message(chat_id: message.chat.id, text: "Invalid entry, it's either /motivate or /joke")
         end
     
