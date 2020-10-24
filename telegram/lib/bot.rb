@@ -28,14 +28,22 @@ Telegram::Bot::Client.run(@token) do |bot|
         when "/joke"
             values = Joke.new
             value = values.select
-            quotes = Quote.create(index: value['id'])
+            if Quote.exists?(index: value['id'])
+            Quote.find_by(index: value['id'])
+            else
+            quote = Quote.create(index: value['id'], likes: 0)
+            end
             bot.api.send_message(chat_id: message.chat.id, text: "#{value['setup']}  #{value['punchline']}
                
                 did you like? use /like")
 
         when "/like"
-            Quote.find_by(index: quotes.last)
+            #quote = Quote.find_by(index: quote.last)
+            quote = Quote.last
+            i = quote.likes
+            quote.update(likes: i = i + 1)
 
+            bot.api.send_message(chat_id: message.chat.id, text: "Oh, thank you! \u{2764}")
 
 
         when "/info"
