@@ -27,7 +27,7 @@ Telegram::Bot::Client.run(@token) do |bot|
 
         when "/joke"
             values = Joke.new
-            value = values.value
+            value = values.select
             quotes = Quote.create(index: value['id'])
             bot.api.send_message(chat_id: message.chat.id, text: "#{value['setup']}  #{value['punchline']}
                

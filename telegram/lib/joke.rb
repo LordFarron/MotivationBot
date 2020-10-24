@@ -19,7 +19,7 @@ class Joke
         return response
     end
 
-    def value
+    def select
         return @values
     end
 end
