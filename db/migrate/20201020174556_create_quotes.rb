@@ -3,8 +3,10 @@ class CreateQuotes < ActiveRecord::Migration[6.0]
     create_table :quotes do |t|
       t.integer :index
       t.integer :likes
-      t.references :user
+      t.belongs_to :user
+
       t.timestamps
     end
+    #add_index :quotes, :user_id
   end
 end
